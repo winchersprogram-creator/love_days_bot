@@ -19,12 +19,15 @@ async def send_days_passed():
     await bot.send_message(chat_id=CHANNEL_ID, text=message)
     print(f"Отправлено сообщение: {message}")
 
+    # Отправляем сообщение сразу при деплое (для теста)
+send_love_message()
+
 # ====== Обёртка для синхронного schedule ======
 def job():
     asyncio.run(send_days_passed())
 
 # ====== Расписание ======
-schedule.every().day.at("22:50").do(send_love_message)
+schedule.every().day.at("22:55").do(send_love_message)
 
 print("✅ Бот запущен. Будет отправлять сообщение каждый день в 00:00...")
 
