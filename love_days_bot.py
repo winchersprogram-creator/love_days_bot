@@ -27,7 +27,7 @@ def job():
     asyncio.run(send_days_passed())
 
 # ====== Расписание ======
-schedule.every().day.at("22:55").do(send_love_message)
+schedule.every().day.at("22:59").do(send_love_message)
 
 print("✅ Бот запущен. Будет отправлять сообщение каждый день в 00:00...")
 
