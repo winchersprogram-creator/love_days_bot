@@ -1,36 +1,29 @@
-import asyncio
 from telegram import Bot
 import schedule
 import time
 from datetime import datetime
 
-# ====== Настройки ======
+# 1️⃣ Настройки бота
 TOKEN = "8518469705:AAHV1w5IOYYER0eGp5cSMoA20UXMOCrWEP4"
-CHANNEL_ID = -1003161684279
-START_DATE = "2025-09-16"
+CHANNEL_ID = "-1003161684279"
+START_DATE = datetime(2025, 9, 16)
 
 bot = Bot(token=TOKEN)
 
-async def send_days_passed():
-    start = datetime.strptime(START_DATE, "%Y-%m-%d")
-    today = datetime.now()
-    days_passed = (today - start).days
-    message = f"💞 Мы вместе уже {days_passed} дней 💞"
-    await bot.send_message(chat_id=CHANNEL_ID, text=message)
-    print(f"Отправлено сообщение: {message}")
+# 2️⃣ Объявляем функцию отправки сообщения
+def send_love_message():
+    delta = datetime.now() - START_DATE
+    message = f"💞 Мы вместе уже {delta.days} дней 💞"
+    bot.send_message(chat_id=CHANNEL_ID, text=message)
+    print("Сообщение отправлено!")
 
-    # Отправляем сообщение сразу при деплое (для теста)
+# 3️⃣ Отправка сообщения сразу при деплое (для проверки)
 send_love_message()
 
-# ====== Обёртка для синхронного schedule ======
-def job():
-    asyncio.run(send_days_passed())
+# 4️⃣ Планируем ежедневную отправку в 22:50
+schedule.every().day.at("23:05").do(send_love_message)
 
-# ====== Расписание ======
-schedule.every().day.at("22:59").do(send_love_message)
-
-print("✅ Бот запущен. Будет отправлять сообщение каждый день в 00:00...")
-
+# 5️⃣ Цикл для работы schedule
 while True:
     schedule.run_pending()
     time.sleep(60)
